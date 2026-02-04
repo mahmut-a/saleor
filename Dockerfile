@@ -66,11 +66,9 @@ CMD ["uvicorn", "saleor.asgi:application", "--host=0.0.0.0", "--port=8000", "--w
 
 FROM ghcr.io/saleor/saleor:3.20
 
-# Entrypoint script ekle
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+WORKDIR /app
 
 EXPOSE 8000
 
-# Entrypoint kullan
-ENTRYPOINT ["/entrypoint.sh"]
+# Daha basit başlatma
+CMD ["sh", "-c", "python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"]
